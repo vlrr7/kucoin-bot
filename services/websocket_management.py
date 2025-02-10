@@ -15,18 +15,29 @@ class WebSocketSymbol:
         self.symbol = symbol
         self.bestAskPrice = 0
         self.bestBidPrice = 0
+
+        if "-" in self.symbol:
+            self.type = "spot"
+        else:
+            self.type = "futures"
     
     def isOperational(self):
         return self.bestAskPrice != 0 and self.bestBidPrice != 0
     
-    def updatePrices(self, data: TickerEvent):
-        self.bestAskPrice = data.best_ask
-        self.bestBidPrice = data.best_bid
+    def updatePrices(self, data):
+        if self.type == "spot":
+            self.updatePricesSpot(data)
+        else:
+            self.updatePricesFutures(data)
+
+    def updatePricesSpot(self, data: TickerEvent):
+        self.bestAskPrice = float(data.best_ask)
+        self.bestBidPrice = float(data.best_bid)
         logging.info(f"[SPOT PRICE] {self.symbol}: Best Ask Price={self.bestAskPrice}, Best Bid Price={self.bestBidPrice}")
 
-    def updatePrices(self, data: TickerV2Event):
-        self.bestAskPrice = data.best_ask_price
-        self.bestBidPrice = data.best_bid_price
+    def updatePricesFutures(self, data: TickerV2Event):
+        self.bestAskPrice = float(data.best_ask_price)
+        self.bestBidPrice = float(data.best_bid_price)
         logging.info(f"[FUTURES PRICE] {self.symbol}: Best Ask Price={self.bestAskPrice}, Best Bid Price={self.bestBidPrice}")
 
 
@@ -79,8 +90,7 @@ async def subscribe_to_spot_price(spot_ws: SpotPublicWS, symbol: WebSocketSymbol
         logging.info(f"[SPOT] Subscribed to price updates for {symbol} with subscription ID: {sub_id}")
 
         # Keep the WebSocket connection alive
-        while True:
-            await asyncio.sleep(60)
+        await asyncio.Event().wait()  # Keeps the coroutine alive without blocking
 
     except Exception as e:
         logging.error(f"[SPOT] Error: {e}")

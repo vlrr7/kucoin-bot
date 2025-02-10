@@ -1,10 +1,43 @@
-# client_setup.py
+import logging
 import os
 from kucoin_universal_sdk.api.client import DefaultClient
 from kucoin_universal_sdk.model.client_option import ClientOptionBuilder
 from kucoin_universal_sdk.model.constants import GLOBAL_API_ENDPOINT
 from kucoin_universal_sdk.model.transport_option import TransportOptionBuilder
 
+class ColorFormatter(logging.Formatter):
+    # Define colors for different log levels
+    COLORS = {
+        "DEBUG": "\033[90m",  # Blue
+        "INFO": "\033[92m",   # Green
+        "WARNING": "\033[93m",# Yellow
+        "ERROR": "\033[91m",  # Red
+        "CRITICAL": "\033[91m\033[1m"  # Bold Red
+    }
+    RESET = "\033[0m"
+
+    def format(self, record):
+        levelname = record.levelname
+        message = super().format(record)
+        color = self.COLORS.get(levelname, self.RESET)
+        return f"{color}{message}{self.RESET}"
+
+# Configure logging
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
+
+handler = logging.StreamHandler()
+handler.setFormatter(ColorFormatter("%(asctime)s - %(levelname)s - %(message)s"))
+logger.addHandler(handler)
+
+# Test logging
+# logging.debug("This is a debug message.")
+# logging.info("This is an info message.")
+# logging.warning("This is a warning message.")
+# logging.error("This is an error message.")
+# logging.critical("This is a critical message.")
+
+# KuCoin Client
 def initialize_kucoin_client():
     """
     Initializes and returns the Kucoin client with configured options.
