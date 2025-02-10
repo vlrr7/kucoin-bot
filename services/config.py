@@ -5,6 +5,8 @@ from kucoin_universal_sdk.model.client_option import ClientOptionBuilder
 from kucoin_universal_sdk.model.constants import GLOBAL_API_ENDPOINT
 from kucoin_universal_sdk.model.transport_option import TransportOptionBuilder
 
+LOG_WEBSOCKET_PRICES = False
+
 class ColorFormatter(logging.Formatter):
     # Define colors for different log levels
     COLORS = {
@@ -24,7 +26,7 @@ class ColorFormatter(logging.Formatter):
 
 # Configure logging
 logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 handler = logging.StreamHandler()
 handler.setFormatter(ColorFormatter("%(asctime)s - %(levelname)s - %(message)s"))
