@@ -1,7 +1,7 @@
 import asyncio
 import os
 import logging
-from config import LOG_WEBSOCKET_PRICES
+from services.config import LOG_WEBSOCKET_PRICES
 from kucoin_universal_sdk.api.client import DefaultClient
 from kucoin_universal_sdk.generate.spot.spot_public.model_ticker_event import TickerEvent
 from kucoin_universal_sdk.generate.futures.futures_public.model_ticker_v2_event import TickerV2Event

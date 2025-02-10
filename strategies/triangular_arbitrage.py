@@ -66,7 +66,7 @@ class TriangularArbitrage:
 
     def calculate_triangular_arbitrage_for_ask_price(self):
         # Calculate the triangular arbitrage price difference
-        implied_first_symbol_price = self.intermediary_symbol.bestAskPrice * self.last_symbol.bestBidPrice
+        implied_first_symbol_price = 1 / self.intermediary_symbol.bestAskPrice * self.last_symbol.bestBidPrice
         # if the implied first symbol price (ex : BTCUSDT) is more than the real price, then buying BTC, then ETH from BTC, then selling ETH is a good idea
         real_price = self.first_symbol.bestAskPrice
 
