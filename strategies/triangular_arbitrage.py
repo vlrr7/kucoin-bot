@@ -1,6 +1,7 @@
 import logging
 import asyncio
 from services.websocket_management import WebSocketSymbol, subscribe_to_futures_price, subscribe_to_spot_price, initialize_websocket
+from utils.utils import log_to_file
 
 class TriangularArbitrage:
     """
@@ -89,6 +90,9 @@ class TriangularArbitrage:
 
         percentage_difference = (price_difference / real_price) * 100
         logging.info(f"Percentage difference: {percentage_difference:.2f}%")
+
+        if (abs(percentage_difference) > 0.3):
+            log_to_file(f"Percentage difference: {percentage_difference:.2f}%", "important.log")
 
 
     def verify_price_initialization(self):

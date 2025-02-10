@@ -1,4 +1,22 @@
 from kucoin_universal_sdk.generate.spot.market.model_get_ticker_req import GetTickerReqBuilder
+from datetime import datetime
+
+# Specific Log
+def log_to_file(message: str, file_name: str) -> None:
+    """
+    Logs a single message into the specified file.
+
+    Args:
+        message (str): The message to log.
+        file_name (str): The name of the file to log the message into.
+    """
+    try:
+        # Open the file in append mode and write the message with a timestamp
+        with open(file_name, "a") as file:
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
+            file.write(f"{timestamp} - {message}\n")
+    except Exception as e:
+        print(f"Error writing to file: {e}")
 
 def get_current_market_price(market_api, symbol):
     """
