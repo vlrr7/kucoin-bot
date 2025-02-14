@@ -1,13 +1,14 @@
 import logging
 import os
-import datetime
 from kucoin_universal_sdk.api.client import DefaultClient
 from kucoin_universal_sdk.model.client_option import ClientOptionBuilder
 from kucoin_universal_sdk.model.constants import GLOBAL_API_ENDPOINT
 from kucoin_universal_sdk.model.transport_option import TransportOptionBuilder
 
-LOG_WEBSOCKET_PRICES = False
+LOG_WEBSOCKET_PRICES = True
 LOG_IN_FILE = False
+LOG_FILE_NAME = "app.log"
+LOGGER_LEVEL = logging.INFO
 
 # Formatter for the console (colors)
 class ColorFormatter(logging.Formatter):
@@ -29,13 +30,13 @@ class ColorFormatter(logging.Formatter):
 
 # Configure logging
 logger = logging.getLogger()
-logger.setLevel(logging.INFO)
+logger.setLevel(LOGGER_LEVEL)
 
 if LOG_IN_FILE:
     # Formatter for the file (no ANSI escape sequences)
     file_formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
 
-    default_file_handler = logging.FileHandler("app.log")  # For file output
+    default_file_handler = logging.FileHandler(LOG_FILE_NAME)  # For file output
     default_file_handler.setFormatter(file_formatter)
     logger.addHandler(default_file_handler)
 
