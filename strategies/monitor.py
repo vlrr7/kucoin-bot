@@ -7,20 +7,20 @@ async def monitor(spot_market_api):
     ws_service = initialize_websocket()
 
     # Symbol to monitor (not yet listed)
-    new_symbol = "BTC-USDT"
+    new_symbol = "XOXO-USDT"
 
     # Poll for new listings (example logic)
     while True:
         try:
             # Check if the symbol exists (use the appropriate API endpoint)
-            is_listed = check_if_symbol_is_listed(spot_market_api,"BTC")  # Implement this function using KuCoin's API
+            is_listed = check_if_symbol_is_listed(spot_market_api,"XOXO")  # Implement this function using KuCoin's API
             if is_listed:
                 logging.info(f"{new_symbol} is now listed! Subscribing to price updates...")
                 spot_ws = initialize_websocket().new_spot_public_ws()
                 await subscribe_to_spot_price(spot_ws, WebSocketSymbol(new_symbol))
                 break
             else:
-                logging.info(f"{new_symbol} not listed yet. Checking again in 60 seconds...")
+                logging.debug(f"{new_symbol} not listed yet. Checking again in 0.1 seconds...")
                 await asyncio.sleep(0.1)
         except Exception as e:
             logging.error(f"Error checking for new listings: {e}")

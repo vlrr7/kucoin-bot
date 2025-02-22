@@ -4,9 +4,10 @@ from kucoin_universal_sdk.api.client import DefaultClient
 from kucoin_universal_sdk.model.client_option import ClientOptionBuilder
 from kucoin_universal_sdk.model.constants import GLOBAL_API_ENDPOINT
 from kucoin_universal_sdk.model.transport_option import TransportOptionBuilder
+from utils.utils import log_to_file
 
 LOG_WEBSOCKET_PRICES = True
-LOG_IN_FILE = False
+LOG_IN_FILE = True
 LOG_FILE_NAME = "app.log"
 LOGGER_LEVEL = logging.INFO
 
@@ -39,6 +40,9 @@ if LOG_IN_FILE:
     default_file_handler = logging.FileHandler(LOG_FILE_NAME)  # For file output
     default_file_handler.setFormatter(file_formatter)
     logger.addHandler(default_file_handler)
+
+    # Add space between sessions in the log file
+    log_to_file("\n", LOG_FILE_NAME)
 
 
 handler = logging.StreamHandler()
