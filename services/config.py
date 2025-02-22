@@ -6,7 +6,7 @@ from kucoin_universal_sdk.model.constants import GLOBAL_API_ENDPOINT
 from kucoin_universal_sdk.model.transport_option import TransportOptionBuilder
 from utils.utils import log_to_file
 
-LOG_WEBSOCKET_PRICES = True
+LOG_WEBSOCKET_PRICES = False
 LOG_IN_FILE = True
 LOG_FILE_NAME = "app.log"
 LOGGER_LEVEL = logging.INFO

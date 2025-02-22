@@ -1,11 +1,9 @@
 import logging
-import asyncio
 from services.config import initialize_kucoin_client, get_market_api
-from services.websocket_management import initialize_websocket, subscribe_to_spot_price, subscribe_to_futures_price
-from services.announcements import get_new_listings
-from utils.utils import get_current_market_price, get_current_market_price_as_log
-from strategies.triangular_arbitrage import TriangularArbitrage
-from strategies.monitor import monitor, check_available_symbols
+from services.kucoin_services import fetch_all_klines, fetch_klines
+from datetime import datetime, timezone
+from utils.statistics import save_data_to_csv
+import asyncio
 
 # Configure logging
 # logging.basicConfig(
@@ -20,21 +18,12 @@ if __name__ == "__main__":
         client = initialize_kucoin_client()
         market_api = get_market_api(client)
 
+        # data = fetch_klines(market_api, "BTC-USDT", "1hour", datetime(2025, 2, 10, 15, 0, 0, tzinfo=timezone.utc), datetime(2025, 2, 22, 18, 0, 0, tzinfo=timezone.utc))
+        data = asyncio.run(fetch_all_klines(market_api, "BTC-USDT", "1hour", datetime(2018, 1, 1, 0, 0, 0, tzinfo=timezone.utc), datetime(2025, 2, 22, 18, 0, 0, tzinfo=timezone.utc)))
 
-        # check_available_symbols(market_api)
-        # logging.info(get_new_listings(market_api))
-        asyncio.run(monitor(spot_market_api=market_api))
-
+        save_data_to_csv(data, "BTC-USDT.csv")
 
     except KeyboardInterrupt:
         logging.info("Program interrupted by user.")
     except Exception as e:
         logging.error(f"Error: {e}")
-
-
-
-def start_arbitrage():
-    ETHBTC_triangular_arbitrage = TriangularArbitrage("BTC-USDT", "ETH-BTC", "ETH-USDT", "spot")
-    # USDCUSDT_triangular_arbitrage = TriangularArbitrage("USDCUSDTM", "XBTUSDCM", "XBTUSDTM", "futures")
-    asyncio.run(ETHBTC_triangular_arbitrage.start())
-    # asyncio.run(USDCUSDT_triangular_arbitrage.start())
