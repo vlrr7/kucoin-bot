@@ -11,6 +11,10 @@ from kucoin_universal_sdk.model.client_option import ClientOptionBuilder
 from kucoin_universal_sdk.model.constants import GLOBAL_API_ENDPOINT, GLOBAL_FUTURES_API_ENDPOINT
 from kucoin_universal_sdk.model.websocket_option import WebSocketClientOptionBuilder
 
+from dotenv import load_dotenv, find_dotenv
+
+load_dotenv(find_dotenv())
+
 class WebSocketSymbol:
     def __init__(self, symbol):
         self.symbol = symbol

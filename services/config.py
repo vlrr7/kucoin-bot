@@ -5,6 +5,9 @@ from kucoin_universal_sdk.model.client_option import ClientOptionBuilder
 from kucoin_universal_sdk.model.constants import GLOBAL_API_ENDPOINT
 from kucoin_universal_sdk.model.transport_option import TransportOptionBuilder
 from utils.utils import log_to_file
+from dotenv import load_dotenv, find_dotenv
+
+load_dotenv(find_dotenv())
 
 LOG_WEBSOCKET_PRICES = False
 LOG_IN_FILE = True
@@ -65,6 +68,7 @@ def initialize_kucoin_client():
         DefaultClient: The initialized Kucoin client instance.
     """
     # Retrieve API credentials from environment variables
+
     key = os.getenv("KUCOINBOT_API_KEY", "")
     secret = os.getenv("KUCOINBOT_API_SECRET", "")
     passphrase = os.getenv("KUCOINBOT_API_PASSPHRASE", "")
